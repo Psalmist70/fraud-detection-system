@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 import joblib
-from .utils import map_time, find_nearest_transaction, get_preloaded_transaction
+from utils import map_time, find_nearest_transaction, get_preloaded_transaction
 import os
 
 app = Flask(__name__)
