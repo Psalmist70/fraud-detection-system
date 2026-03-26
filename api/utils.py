@@ -1,13 +1,21 @@
-
 import pandas as pd
 import numpy as np
+import os
 
 # -----------------------------
-# LOAD DATASET (Google Drive Path)
+# LOAD DATASET (ZIP FILE IN SAME FOLDER)
 # -----------------------------
-DATA_PATH = '/content/drive/MyDrive/FraudDetection/creditcard.csv'
+BASE_DIR = os.path.dirname(__file__)
+DATA_PATH = os.path.join(BASE_DIR, "creditcard.csv.zip")
 
-df = pd.read_csv(DATA_PATH)
+# Cache the DataFrame in memory
+_df_cache = None
+
+def get_dataframe():
+    global _df_cache
+    if _df_cache is None:
+        _df_cache = pd.read_csv(DATA_PATH, compression='zip')
+    return _df_cache
 
 # -----------------------------
 # PRELOADED TRANSACTION MAPPING (A2)
@@ -36,22 +44,22 @@ def map_time(period):
 # FIND NEAREST TRANSACTION (A1)
 # -----------------------------
 def find_nearest_transaction(time_value, amount):
-    df_copy = df.copy()
+    df = get_dataframe().copy()
 
     # Normalize Time & Amount
-    df_copy['norm_time'] = (df_copy['Time'] - df_copy['Time'].mean()) / df_copy['Time'].std()
-    df_copy['norm_amount'] = (df_copy['Amount'] - df_copy['Amount'].mean()) / df_copy['Amount'].std()
+    df['norm_time'] = (df['Time'] - df['Time'].mean()) / df['Time'].std()
+    df['norm_amount'] = (df['Amount'] - df['Amount'].mean()) / df['Amount'].std()
 
-    input_time_norm = (time_value - df_copy['Time'].mean()) / df_copy['Time'].std()
-    input_amount_norm = (amount - df_copy['Amount'].mean()) / df_copy['Amount'].std()
+    input_time_norm = (time_value - df['Time'].mean()) / df['Time'].std()
+    input_amount_norm = (amount - df['Amount'].mean()) / df['Amount'].std()
 
     # Distance calculation
-    df_copy['distance'] = (
-        abs(df_copy['norm_time'] - input_time_norm) +
-        abs(df_copy['norm_amount'] - input_amount_norm)
+    df['distance'] = (
+        abs(df['norm_time'] - input_time_norm) +
+        abs(df['norm_amount'] - input_amount_norm)
     )
 
-    nearest_row = df_copy.loc[df_copy['distance'].idxmin()]
+    nearest_row = df.loc[df['distance'].idxmin()]
 
     return nearest_row
 
@@ -59,6 +67,7 @@ def find_nearest_transaction(time_value, amount):
 # GET PRELOADED TRANSACTION (A2)
 # -----------------------------
 def get_preloaded_transaction(txn_id):
+    df = get_dataframe()
     if txn_id not in PRELOADED_MAP:
         return None
     return df.iloc[PRELOADED_MAP[txn_id]]
