@@ -1,15 +1,15 @@
 from flask import Flask, request, jsonify
 import joblib
 from utils import map_time, find_nearest_transaction, get_preloaded_transaction
+import os
 
 app = Flask(__name__)
 
 # -----------------------------
 # LOAD MODEL & SCALER
 # -----------------------------
-model = joblib.load('../model/fraud_ensemble_model.pkl')
-scaler = joblib.load('../model/scaler.pkl')
-
+model = pickle.load(open('model/fraud_ensemble_model.pkl', 'rb'))
+scaler = pickle.load(open('model/scaler.pkl', 'rb'))
 
 # -----------------------------
 # A1: CUSTOM TRANSACTION
@@ -88,5 +88,6 @@ def predict_selected():
 # -----------------------------
 # RUN APP
 # -----------------------------
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
