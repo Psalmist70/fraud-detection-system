@@ -40,7 +40,7 @@ def predict_custom():
     features = features.reshape(1, -1)
 
     # No Scale
-   features_scaled = scaler.transform(features)  # now works for 30 features
+    features_scaled = scaler.transform(features)  # now works for 30 features
 
     # Predict
     pred = model.predict(features_scaled)[0]
