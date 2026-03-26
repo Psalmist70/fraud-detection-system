@@ -39,8 +39,8 @@ def predict_custom():
 
     features = features.reshape(1, -1)
 
-    # Scale
-    features_scaled = scaler.transform(features)
+    # No Scale
+    features_scaled = features
 
     # Predict
     pred = model.predict(features_scaled)[0]
@@ -71,7 +71,7 @@ def predict_selected():
     features = row.drop('Class').values.reshape(1, -1)
 
     # Scale
-    features_scaled = scaler.transform(features)
+    features_scaled = features
 
     # Predict
     pred = model.predict(features_scaled)[0]
