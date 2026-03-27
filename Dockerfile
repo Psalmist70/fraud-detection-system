@@ -15,4 +15,4 @@ RUN pip install --no-cache-dir --upgrade pip \
 EXPOSE 5000
 
 # Run the app (Flask or FastAPI)
-CMD ["python", "app.py"]
+CMD ["python", "api/app.py"]
