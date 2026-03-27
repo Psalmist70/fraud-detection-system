@@ -1,18 +1,17 @@
-# Use Python 3.10 slim base image
 FROM python:3.10-slim
 
-# Set working directory
 WORKDIR /app
 
-# Copy project files
 COPY . .
 
-# Upgrade pip and install dependencies
+# Install dependencies
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir -r requirements.txt
+ && pip install --no-cache-dir -r api/requirements.txt
 
-# Expose the port your app runs on
+# Set root as PYTHONPATH so 'api' can be imported
+ENV PYTHONPATH=/app
+
 EXPOSE 5000
 
-# Run the app (Flask or FastAPI)
+# Run the app
 CMD ["python", "api/app.py"]
