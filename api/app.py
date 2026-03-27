@@ -9,9 +9,10 @@ app = Flask(__name__)
 # -----------------------------
 # LOAD MODEL & SCALER
 # -----------------------------
-model = pickle.load(open('model/fraud_ensemble_model.pkl', 'rb'))
-scaler = pickle.load(open('model/scaler.pkl', 'rb'))
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+model = pickle.load(open(os.path.join(BASE_DIR, 'model/fraud_ensemble_model.pkl'), 'rb'))
+scaler = pickle.load(open(os.path.join(BASE_DIR, 'model/scaler.pkl'), 'rb'))
 # -----------------------------
 # A1: CUSTOM TRANSACTION
 # -----------------------------
