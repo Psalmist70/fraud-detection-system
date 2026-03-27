@@ -2,17 +2,21 @@ from flask import Flask, request, jsonify
 import joblib
 from utils import map_time, find_nearest_transaction, get_preloaded_transaction
 import os
-import pickle
 
 app = Flask(__name__)
 
 # -----------------------------
+# DEFINE BASE DIR
+# -----------------------------
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))  # root folder
+
+# -----------------------------
 # LOAD MODEL & SCALER
 # -----------------------------
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+model = joblib.load(os.path.join(BASE_DIR, 'model/fraud_ensemble_model.joblib'))
+scaler = joblib.load(os.path.join(BASE_DIR, 'model/scaler.joblib'))
 
-model = pickle.load(open(os.path.join(BASE_DIR, 'model/fraud_ensemble_model.pkl'), 'rb'))
-scaler = pickle.load(open(os.path.join(BASE_DIR, 'model/scaler.pkl'), 'rb'))
+
 # -----------------------------
 # A1: CUSTOM TRANSACTION
 # -----------------------------
