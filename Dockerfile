@@ -8,6 +8,8 @@ COPY . .
 RUN pip install --no-cache-dir --upgrade pip \
  && pip install --no-cache-dir -r api/requirements.txt
 
+# Tell Python where to find 'api'
+ENV PYTHONPATH=/app
 
 EXPOSE 5000
 
