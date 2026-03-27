@@ -6,7 +6,7 @@ import os
 # LOAD DATASET (ZIP FILE IN SAME FOLDER)
 # -----------------------------
 BASE_DIR = os.path.dirname(__file__)
-DATA_PATH = os.path.join(BASE_DIR, "creditcard.csv.zip")
+DATA_PATH = os.path.join(BASE_DIR, "creditcard_small.csv")
 
 # Cache the DataFrame in memory
 _df_cache = None
@@ -14,7 +14,7 @@ _df_cache = None
 def get_dataframe():
     global _df_cache
     if _df_cache is None:
-        _df_cache = pd.read_csv(DATA_PATH, compression='zip')
+        _df_cache = pd.read_csv(DATA_PATH)
     return _df_cache
 
 # -----------------------------
