@@ -8,8 +8,6 @@ COPY . .
 RUN pip install --no-cache-dir --upgrade pip \
  && pip install --no-cache-dir -r api/requirements.txt
 
-# Set root as PYTHONPATH so 'api' can be imported
-ENV PYTHONPATH=/app
 
 EXPOSE 5000
 
